@@ -291,6 +291,16 @@
                 setTimeout(() => p.remove(), 7000);
             }, 200);
         }
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                musica.pause();
+            } else {
+                // Solo vuelve a sonar si el overlay ya no está (la música ya había empezado)
+                if (overlay.style.display === 'none') {
+                    musica.play();
+                }
+            }
+        });
     </script>
 </body>
 </html>
