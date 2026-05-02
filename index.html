@@ -20,70 +20,57 @@
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             background: #fff1f5;
-            z-index: 3000;
+            z-index: 9000;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             cursor: pointer;
         }
 
-        .escena {
-            width: 100vw; height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: space-around; 
-            align-items: center;
-            position: relative;
+        /* CAPA DE MENSAJES */
+        .capa-mensajes-fijos {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 8000;
         }
 
-        /* --- MENSAJES CON AJUSTES DE POSICIÓN --- */
-        .contenedor-mensajes-v {
+        #msg-arriba, #msg-abajo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 2s ease;
-            z-index: 1500;
             text-align: center;
+            opacity: 0;
+            /* La transición de opacidad ahora es un poco más rápida para que desaparezca bien al hacer click */
+            transition: opacity 0.5s ease; 
         }
 
-        /* Feliz Cumpleaños más abajo todavía */
-        #msg-arriba { margin-top: 90px; } 
-        
-        /* Camilita TQM más arriba (ajuste fino de márgenes) */
-        #msg-abajo { margin-bottom: 85px; } 
+        #msg-arriba { top: 7vh; }
+        #msg-abajo { bottom: 7vh; }
 
-        .linea-texto {
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin: 1px 0; /* Más compacto */
-        }
-
+        .linea-texto { font-size: 2.2rem; font-weight: bold; margin: 2px 0; }
         .color-azul { color: #1a5fb4; text-shadow: 1px 1px 2px white; }
         .color-celeste { color: #87CEEB; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
 
-        /* --- ÁRBOL --- */
+        .escena {
+            width: 100vw; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
+            z-index: 100;
+        }
+
         #arbol-master {
             width: 600px; height: 600px;
             position: relative;
             transform-origin: center center;
             transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
         }
 
-        .tronco-img {
-            position: absolute; width: 100%; height: 100%;
-            object-fit: contain; bottom: 0; z-index: 5;
-        }
+        .tronco-img { position: absolute; width: 100%; height: 100%; object-fit: contain; bottom: 0; z-index: 5; }
+        .flor-png { position: absolute; background-image: url('flor.png'); background-size: contain; background-repeat: no-repeat; opacity: 0; z-index: 8; }
 
-        .flor-png {
-            position: absolute;
-            background-image: url('flor.png'); 
-            background-size: contain; background-repeat: no-repeat;
-            opacity: 0; z-index: 8;
-        }
-
-        /* --- FOTOS CON AJUSTES DE PRECISIÓN --- */
+        /* FOTOS */
         .foto-marquito {
             position: absolute; width: 100px; padding: 5px;
             background: white; border-radius: 2px;
@@ -93,99 +80,69 @@
         }
         .foto-marquito img { width: 100%; display: block; }
 
-        /* Superiores (se mantienen según el ajuste anterior) */
         #f1 { top: 8%; left: 21%; }
         #f2 { top: 8%; right: 21%; }
-        
-        /* Foto 3: 4px abajo y 3px derecha adicionales (ajuste de bottom y left) */
         #f3 { bottom: 20%; left: 25%; }
-        
-        /* Foto 4: 3px abajo y 3px izquierda adicionales (ajuste de bottom y right) */
         #f4 { bottom: 20%; right: 25%; }
 
         .texto-foto {
             position: absolute; width: 140px; font-size: 1rem;
             color: #1a5fb4; background: rgba(255, 255, 255, 0.98);
             padding: 8px; border-radius: 5px; opacity: 0;
-            border: 2px solid #87CEEB;
-            text-align: center;
-            left: 50%; transform: translateX(-50%);
-            bottom: 100%;
-            z-index: 2000 !important;
+            border: 2px solid #87CEEB; text-align: center;
+            left: 50%; transform: translateX(-50%); bottom: 100%;
         }
 
         .foto-activa .texto-foto { opacity: 1; }
+        .mostrar-msg { opacity: 1 !important; }
+        .ocultar-temp { opacity: 0 !important; } /* Clase para ocultar temporalmente */
 
         @media (max-width: 800px) {
             #arbol-master { transform: scale(0.65); }
             .linea-texto { font-size: 1.8rem; }
         }
 
-        .mostrar-msg { opacity: 1 !important; }
-
+        /* ZOOMS */
         .zoom1 { transform: scale(1.8) translate(15%, 15%) !important; }
         .zoom2 { transform: scale(1.8) translate(-15%, 15%) !important; }
         .zoom3 { transform: scale(1.8) translate(15%, -5%) !important; }
         .zoom4 { transform: scale(1.8) translate(-15%, -5%) !important; }
 
-        .pétalo-viento {
-            position: absolute;
-            background-image: url('flor.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        @keyframes animacionViento {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translate(-600px, 600px) rotate(-720deg); opacity: 0; }
-        }
+        .pétalo-viento { position: absolute; background-image: url('flor.png'); background-size: contain; z-index: 20; pointer-events: none; }
+        @keyframes animacionViento { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 20% { opacity: 0.8; } 100% { transform: translate(-600px, 600px) rotate(-720deg); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <div id="overlay-inicio">
         <div style="font-size: 60px; margin-bottom: 20px;">👀</div>
-        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VER</div>
+        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VE</div>
     </div>
 
     <audio id="musica-fondo" loop>
         <source src="musica.ogg" type="audio/ogg">
     </audio>
 
-    <div class="escena">
-        <div id="msg-arriba" class="contenedor-mensajes-v">
+    <div class="capa-mensajes-fijos">
+        <div id="msg-arriba">
             <div class="linea-texto color-celeste">FELIZ</div>
             <div class="linea-texto color-azul">CUMPLEAÑOS</div>
         </div>
+        <div id="msg-abajo">
+            <div class="linea-texto color-azul">CAMILITA</div>
+            <div class="linea-texto color-celeste">TQM ❤️</div>
+        </div>
+    </div>
 
+    <div class="escena">
         <div id="arbol-master" style="opacity: 0;">
             <img src="arbol.png" class="tronco-img">
             <div id="contenedor-flores" style="position: absolute; width:100%; height:100%;"></div>
 
-            <div class="foto-marquito" id="f1" onclick="activarZoom(1)">
-                <img src="pic1.jpg">
-                <div class="texto-foto">Eres la mejor! ✨</div>
-            </div>
-            <div class="foto-marquito" id="f2" onclick="activarZoom(2)">
-                <img src="pic2.jpg">
-                <div class="texto-foto">Te quiero mucho 💙</div>
-            </div>
-            <div class="foto-marquito" id="f3" onclick="activarZoom(3)">
-                <img src="pic3.jpg">
-                <div class="texto-foto">Siempre juntos ❀</div>
-            </div>
-            <div class="foto-marquito" id="f4" onclick="activarZoom(4)">
-                <img src="pic4.jpg">
-                <div class="texto-foto">Por más años así 🎂</div>
-            </div>
-        </div>
-
-        <div id="msg-abajo" class="contenedor-mensajes-v">
-            <div class="linea-texto color-azul">CAMILITA</div>
-            <div class="linea-texto color-celeste">TQM ❤️</div>
+            <div class="foto-marquito" id="f1" onclick="activarZoom(1)"><img src="pic1.jpg"><div class="texto-foto">Eres la mejor! ✨</div></div>
+            <div class="foto-marquito" id="f2" onclick="activarZoom(2)"><img src="pic2.jpg"><div class="texto-foto">Pasa bomba con rafa xD</div></div>
+            <div class="foto-marquito" id="f3" onclick="activarZoom(3)"><img src="pic3.jpg"><div class="texto-foto">Te quiero mucho 💙</div></div>
+            <div class="foto-marquito" id="f4" onclick="activarZoom(4)"><img src="pic4.jpg"><div class="texto-foto">Por más años juntos 🎂</div></div>
         </div>
     </div>
 
@@ -194,6 +151,8 @@
         const contenedorFlores = document.getElementById('contenedor-flores');
         const musica = document.getElementById('musica-fondo');
         const overlay = document.getElementById('overlay-inicio');
+        const msgArriba = document.getElementById('msg-arriba');
+        const msgAbajo = document.getElementById('msg-abajo');
         let bloqueado = true;
 
         overlay.addEventListener('click', () => {
@@ -204,7 +163,7 @@
         });
 
         function crearCorazon() {
-            const totalFlores = 1000; 
+            const totalFlores = 800; 
             const fragmento = document.createDocumentFragment();
             for (let i = 0; i < totalFlores; i++) {
                 let t = Math.random() * 2 * Math.PI;
@@ -235,7 +194,7 @@
                     setTimeout(() => {
                         f.style.opacity = "1";
                         f.style.transform = f.style.transform.replace('scale(0)', 'scale(1)');
-                    }, i * 1); 
+                    }, i * 1.5); 
                 });
             }, 2000);
 
@@ -244,6 +203,10 @@
 
         function secuenciaIntro() {
             const tiempos = [0, 3000, 6000, 9000];
+            // Durante la intro, nos aseguramos de que los mensajes NO se vean
+            msgArriba.classList.add('ocultar-temp');
+            msgAbajo.classList.add('ocultar-temp');
+
             for(let i=1; i<=4; i++) {
                 setTimeout(() => {
                     limpiarTextos();
@@ -253,13 +216,17 @@
                     el.classList.add('foto-activa');
                 }, tiempos[i-1]);
             }
+            
             setTimeout(() => {
                 arbol.className = "";
                 limpiarTextos();
                 bloqueado = false;
                 iniciarViento();
-                document.getElementById('msg-arriba').classList.add('mostrar-msg');
-                document.getElementById('msg-abajo').classList.add('mostrar-msg');
+                // Al terminar la intro, quitamos la ocultación temporal y mostramos los mensajes
+                msgArriba.classList.remove('ocultar-temp');
+                msgAbajo.classList.remove('ocultar-temp');
+                msgArriba.classList.add('mostrar-msg');
+                msgAbajo.classList.add('mostrar-msg');
             }, 12500);
         }
 
@@ -270,11 +237,19 @@
         function activarZoom(num) {
             if(bloqueado) return;
             limpiarTextos();
+            
             if(arbol.className === `zoom${num}`) {
+                // Si quitamos el zoom (volvemos al árbol completo)
                 arbol.className = "";
+                msgArriba.classList.remove('ocultar-temp');
+                msgAbajo.classList.remove('ocultar-temp');
             } else {
+                // Si activamos el zoom en una foto
                 arbol.className = `zoom${num}`;
                 document.getElementById(`f${num}`).classList.add('foto-activa');
+                // OCULTAMOS los mensajes mientras se ve la foto
+                msgArriba.classList.add('ocultar-temp');
+                msgAbajo.classList.add('ocultar-temp');
             }
         }
 
@@ -289,14 +264,13 @@
                 p.style.animation = `animacionViento ${Math.random() * 3 + 4}s linear forwards`;
                 arbol.appendChild(p);
                 setTimeout(() => p.remove(), 7000);
-            }, 200);
+            }, 250);
         }
-        // Detectar si el usuario sale de la página o bloquea el teléfono
+
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 musica.pause();
             } else {
-                // Solo vuelve a sonar si el overlay ya no está (la música ya había empezado)
                 if (overlay.style.display === 'none') {
                     musica.play();
                 }
