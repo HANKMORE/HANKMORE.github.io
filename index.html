@@ -47,15 +47,16 @@
             text-align: center;
         }
 
-        /* Feliz Cumpleaños más abajo */
-        #msg-arriba { margin-top: 60px; } 
-        /* Camilita TQM más arriba */
-        #msg-abajo { margin-bottom: 60px; } 
+        /* Feliz Cumpleaños más abajo todavía */
+        #msg-arriba { margin-top: 90px; } 
+        
+        /* Camilita TQM más arriba (ajuste fino de márgenes) */
+        #msg-abajo { margin-bottom: 85px; } 
 
         .linea-texto {
             font-size: 2.2rem;
             font-weight: bold;
-            margin: 2px 0;
+            margin: 1px 0; /* Más compacto */
         }
 
         .color-azul { color: #1a5fb4; text-shadow: 1px 1px 2px white; }
@@ -82,7 +83,7 @@
             opacity: 0; z-index: 8;
         }
 
-        /* --- FOTOS CON AJUSTES DE PÍXELES --- */
+        /* --- FOTOS CON AJUSTES DE PRECISIÓN --- */
         .foto-marquito {
             position: absolute; width: 100px; padding: 5px;
             background: white; border-radius: 2px;
@@ -92,13 +93,15 @@
         }
         .foto-marquito img { width: 100%; display: block; }
 
-        /* Foto 1: 2px abajo y 2px derecha adicionales */
+        /* Superiores (se mantienen según el ajuste anterior) */
         #f1 { top: 11%; left: 21%; }
-        /* Foto 2: 3px abajo y 2px izquierda adicionales */
         #f2 { top: 11.5%; right: 21%; }
         
-        #f3 { bottom: 45%; left: 18%; }
-        #f4 { bottom: 45%; right: 18%; }
+        /* Foto 3: 4px abajo y 3px derecha adicionales (ajuste de bottom y left) */
+        #f3 { bottom: 44%; left: 19%; }
+        
+        /* Foto 4: 3px abajo y 3px izquierda adicionales (ajuste de bottom y right) */
+        #f4 { bottom: 44.3%; right: 19%; }
 
         .texto-foto {
             position: absolute; width: 140px; font-size: 1rem;
@@ -125,13 +128,12 @@
         .zoom3 { transform: scale(1.8) translate(15%, -5%) !important; }
         .zoom4 { transform: scale(1.8) translate(-15%, -5%) !important; }
 
-        /* --- FLORES QUE CAEN (VIENTO) --- */
         .pétalo-viento {
             position: absolute;
             background-image: url('flor.png');
             background-size: contain;
             background-repeat: no-repeat;
-            z-index: 20; /* Por encima del árbol */
+            z-index: 20;
             pointer-events: none;
         }
 
@@ -146,7 +148,7 @@
 
     <div id="overlay-inicio">
         <div style="font-size: 60px; margin-bottom: 20px;">👀</div>
-        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VE</div>
+        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VER</div>
     </div>
 
     <audio id="musica-fondo" loop>
@@ -280,17 +282,14 @@
             setInterval(() => {
                 const p = document.createElement("div");
                 p.className = "pétalo-viento";
-                // Posición inicial aleatoria dentro del área del árbol
                 p.style.left = (Math.random() * 500 + 50) + "px";
                 p.style.top = (Math.random() * 400 + 50) + "px";
                 const size = Math.random() * 15 + 10;
                 p.style.width = size + "px"; p.style.height = size + "px";
                 p.style.animation = `animacionViento ${Math.random() * 3 + 4}s linear forwards`;
-                
                 arbol.appendChild(p);
-                // Eliminar el elemento después de que termine la animación para no saturar
                 setTimeout(() => p.remove(), 7000);
-            }, 200); // Frecuencia de caída
+            }, 200);
         }
     </script>
 </body>
