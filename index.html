@@ -148,7 +148,7 @@
 
     <div id="overlay-inicio">
         <div style="font-size: 60px; margin-bottom: 20px;">👀</div>
-        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VE</div>
+        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VER</div>
     </div>
 
     <audio id="musica-fondo" loop>
@@ -211,8 +211,8 @@
                 let r = Math.sqrt(Math.random()); 
                 const x = 16 * Math.pow(Math.sin(t), 3); 
                 const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-                const posX = 300 + (x * r * 14); 
-                const posY = 200 + (y * r * 14); 
+                const posX = 300 + (x * r * 12); 
+                const posY = 150 + (y * r * 12); 
                 const flor = document.createElement("div");
                 flor.className = "flor-png";
                 flor.style.left = posX + "px";
