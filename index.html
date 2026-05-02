@@ -94,14 +94,14 @@
         .foto-marquito img { width: 100%; display: block; }
 
         /* Superiores (se mantienen según el ajuste anterior) */
-        #f1 { top: 11%; left: 21%; }
-        #f2 { top: 11.5%; right: 21%; }
+        #f1 { top: 8%; left: 21%; }
+        #f2 { top: 8%; right: 21%; }
         
         /* Foto 3: 4px abajo y 3px derecha adicionales (ajuste de bottom y left) */
-        #f3 { bottom: 44%; left: 19%; }
+        #f3 { bottom: 20%; left: 25%; }
         
         /* Foto 4: 3px abajo y 3px izquierda adicionales (ajuste de bottom y right) */
-        #f4 { bottom: 44.3%; right: 19%; }
+        #f4 { bottom: 20%; right: 25%; }
 
         .texto-foto {
             position: absolute; width: 140px; font-size: 1rem;
@@ -110,7 +110,7 @@
             border: 2px solid #87CEEB;
             text-align: center;
             left: 50%; transform: translateX(-50%);
-            bottom: 115%;
+            bottom: 100%;
             z-index: 2000 !important;
         }
 
@@ -148,7 +148,7 @@
 
     <div id="overlay-inicio">
         <div style="font-size: 60px; margin-bottom: 20px;">👀</div>
-        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VER</div>
+        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VE</div>
     </div>
 
     <audio id="musica-fondo" loop>
@@ -212,7 +212,7 @@
                 const x = 16 * Math.pow(Math.sin(t), 3); 
                 const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
                 const posX = 300 + (x * r * 14); 
-                const posY = 250 + (y * r * 14); 
+                const posY = 200 + (y * r * 14); 
                 const flor = document.createElement("div");
                 flor.className = "flor-png";
                 flor.style.left = posX + "px";
