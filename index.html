@@ -148,7 +148,7 @@
 
     <div id="overlay-inicio">
         <div style="font-size: 60px; margin-bottom: 20px;">👀</div>
-        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VER</div>
+        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VERr</div>
     </div>
 
     <audio id="musica-fondo" loop>
@@ -171,15 +171,15 @@
             </div>
             <div class="foto-marquito" id="f2" onclick="activarZoom(2)">
                 <img src="pic2.jpg">
-                <div class="texto-foto">Te quiero mucho 💙</div>
+                <div class="texto-foto">Pasala bomba con rafa xD</div>
             </div>
             <div class="foto-marquito" id="f3" onclick="activarZoom(3)">
                 <img src="pic3.jpg">
-                <div class="texto-foto">Siempre juntos ❀</div>
+                <div class="texto-foto">Te quiero mucho 💙</div>
             </div>
             <div class="foto-marquito" id="f4" onclick="activarZoom(4)">
                 <img src="pic4.jpg">
-                <div class="texto-foto">Por más años así 🎂</div>
+                <div class="texto-foto">Por más años juntos 🎂</div>
             </div>
         </div>
 
@@ -194,6 +194,11 @@
         const contenedorFlores = document.getElementById('contenedor-flores');
         const musica = document.getElementById('musica-fondo');
         const overlay = document.getElementById('overlay-inicio');
+
+        // 🔹 NUEVO: referencias a los textos
+        const msgArriba = document.getElementById('msg-arriba');
+        const msgAbajo = document.getElementById('msg-abajo');
+
         let bloqueado = true;
 
         overlay.addEventListener('click', () => {
@@ -258,8 +263,8 @@
                 limpiarTextos();
                 bloqueado = false;
                 iniciarViento();
-                document.getElementById('msg-arriba').classList.add('mostrar-msg');
-                document.getElementById('msg-abajo').classList.add('mostrar-msg');
+                msgArriba.classList.add('mostrar-msg');
+                msgAbajo.classList.add('mostrar-msg');
             }, 12500);
         }
 
@@ -267,14 +272,24 @@
             document.querySelectorAll('.foto-marquito').forEach(f => f.classList.remove('foto-activa'));
         }
 
+        // 🔹 MODIFICADO: ocultar/mostrar textos al hacer zoom
         function activarZoom(num) {
             if(bloqueado) return;
+
             limpiarTextos();
+
             if(arbol.className === `zoom${num}`) {
+                // Quitar zoom → mostrar textos
                 arbol.className = "";
+                msgArriba.classList.add('mostrar-msg');
+                msgAbajo.classList.add('mostrar-msg');
             } else {
+                // Activar zoom → ocultar textos
                 arbol.className = `zoom${num}`;
                 document.getElementById(`f${num}`).classList.add('foto-activa');
+
+                msgArriba.classList.remove('mostrar-msg');
+                msgAbajo.classList.remove('mostrar-msg');
             }
         }
 
@@ -291,16 +306,16 @@
                 setTimeout(() => p.remove(), 7000);
             }, 200);
         }
+
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 musica.pause();
             } else {
-                // Solo vuelve a sonar si el overlay ya no está (la música ya había empezado)
                 if (overlay.style.display === 'none') {
                     musica.play();
                 }
             }
         });
-    </script>
+</script>
 </body>
 </html>
