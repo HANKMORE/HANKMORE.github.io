@@ -20,7 +20,7 @@
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             background: #fff1f5;
-            z-index: 2000;
+            z-index: 3000;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             cursor: pointer;
@@ -28,12 +28,38 @@
 
         .escena {
             width: 100vw; height: 100vh;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; flex-direction: column; /* Orientación vertical */
+            justify-content: space-around; 
+            align-items: center;
             position: relative;
         }
 
+        /* --- MENSAJES ARRIBA Y ABAJO --- */
+        .contenedor-mensajes-v {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 2s ease;
+            z-index: 1500;
+            text-align: center;
+        }
+
+        .linea-texto {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .color-azul { color: #1a5fb4; text-shadow: 1px 1px 2px white; }
+        .color-celeste { color: #87CEEB; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+
+        /* --- CONTENEDOR DEL ÁRBOL --- */
         #arbol-master {
-            width: 800px; height: 800px;
+            width: 600px; /* Tamaño base para el cálculo */
+            height: 600px;
             position: relative;
             transform-origin: center center;
             transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -52,9 +78,9 @@
             opacity: 0; z-index: 8;
         }
 
-        /* --- FOTOS Y TEXTOS --- */
+        /* --- FOTOS Y TEXTOS ARRIBA --- */
         .foto-marquito {
-            position: absolute; width: 110px; padding: 5px;
+            position: absolute; width: 100px; padding: 5px;
             background: white; border-radius: 2px;
             box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
             opacity: 0; transform: scale(0.5);
@@ -63,59 +89,38 @@
         .foto-marquito img { width: 100%; display: block; }
 
         .texto-foto {
-            position: absolute; width: 160px; font-size: 1rem;
-            color: #1a5fb4; background: rgba(255, 255, 255, 0.95);
-            padding: 10px; border-radius: 8px; opacity: 0;
-            border: 1px solid #1a5fb4;
+            position: absolute; width: 140px; font-size: 1rem;
+            color: #1a5fb4; background: rgba(255, 255, 255, 0.98);
+            padding: 8px; border-radius: 5px; opacity: 0;
+            border: 2px solid #87CEEB;
             transition: opacity 0.4s ease;
             text-align: center;
             left: 50%; transform: translateX(-50%);
-            bottom: 110%; /* Aparece ARRIBA de la foto */
-            z-index: 1000 !important;
+            bottom: 115%; /* SIEMPRE ARRIBA DE LA FOTO */
+            z-index: 2000 !important;
+            pointer-events: none;
         }
 
         .foto-activa .texto-foto { opacity: 1; }
 
-        /* --- MENSAJES LATERALES REAJUSTADOS --- */
-        .contenedor-mensajes {
-            position: fixed; /* Se fijan a la pantalla, no al árbol */
-            display: flex; gap: 15px; 
-            opacity: 0; transition: all 2.5s ease-out;
-            z-index: 1500;
-        }
-
-        .linea-vertical {
-            display: flex; flex-direction: column; align-items: center;
-            font-size: 2.5rem; font-weight: bold; line-height: 1;
-        }
-
-        .color-azul { color: #1a5fb4; text-shadow: 1px 1px 3px white; }
-        .color-celeste { color: #87CEEB; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
-
-        #msg-izq { left: 20px; top: 50%; transform: translateY(-50%); }
-        #msg-der { right: 20px; top: 50%; transform: translateY(-50%); }
-
         /* --- RESPONSIVE CELULAR --- */
         @media (max-width: 800px) {
-            #arbol-master { transform: scale(0.45); }
-            .linea-vertical { font-size: 1.6rem; }
-            #msg-izq { left: 10px; }
-            #msg-der { right: 10px; }
-            .texto-foto { width: 120px; font-size: 0.8rem; }
+            #arbol-master { transform: scale(0.6); } /* Árbol más grande */
+            .linea-texto { font-size: 1.8rem; }
         }
 
         .mostrar-msg { opacity: 1 !important; }
 
-        /* --- ZOOM AJUSTADO PARA NO CORTAR TEXTO --- */
-        .zoom1 { transform: scale(2.2) translate(20%, 20%) !important; }
-        .zoom2 { transform: scale(2.2) translate(-20%, 20%) !important; }
-        .zoom3 { transform: scale(2.2) translate(20%, -5%) !important; }
-        .zoom4 { transform: scale(2.2) translate(-20%, -5%) !important; }
+        /* ZOOM AJUSTADO PARA CELULAR */
+        .zoom1 { transform: scale(1.8) translate(15%, 15%) !important; }
+        .zoom2 { transform: scale(1.8) translate(-15%, 15%) !important; }
+        .zoom3 { transform: scale(1.8) translate(15%, -5%) !important; }
+        .zoom4 { transform: scale(1.8) translate(-15%, -5%) !important; }
 
-        #f1 { top: 15%; left: 24%; }
-        #f2 { top: 15%; right: 24%; }
-        #f3 { bottom: 40%; left: 22%; }
-        #f4 { bottom: 40%; right: 22%; }
+        #f1 { top: 10%; left: 20%; }
+        #f2 { top: 10%; right: 20%; }
+        #f3 { bottom: 45%; left: 18%; }
+        #f4 { bottom: 45%; right: 18%; }
 
         .pétalo-viento {
             position: absolute; background-image: url('flor.png');
@@ -126,15 +131,15 @@
         @keyframes viento-izq {
             0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.6; }
-            100% { transform: translate(-1000px, 500px) rotate(-720deg); opacity: 0; }
+            100% { transform: translate(-800px, 400px) rotate(-720deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
     <div id="overlay-inicio">
-        <div style="font-size: 80px; margin-bottom: 20px;">👀</div>
-        <div style="font-size: 2rem; color: #1a5fb4; font-weight: bold;">VER</div>
+        <div style="font-size: 60px; margin-bottom: 20px;">👀</div>
+        <div style="font-size: 1.5rem; color: #1a5fb4; font-weight: bold;">TOCA PARA VER</div>
     </div>
 
     <audio id="musica-fondo" loop>
@@ -142,11 +147,18 @@
     </audio>
 
     <div class="escena">
-        <div id="arbol-master">
+        
+        <!-- MENSAJE SUPERIOR -->
+        <div id="msg-arriba" class="contenedor-mensajes-v">
+            <div class="linea-texto color-celeste">FELIZ</div>
+            <div class="linea-texto color-azul">CUMPLEAÑOS</div>
+        </div>
+
+        <!-- ÁRBOL CENTRAL -->
+        <div id="arbol-master" style="opacity: 0;">
             <img src="arbol.png" class="tronco-img">
             <div id="contenedor-flores" style="position: absolute; width:100%; height:100%;"></div>
 
-            <!-- Fotos -->
             <div class="foto-marquito" id="f1" onclick="activarZoom(1)">
                 <img src="pic1.jpg">
                 <div class="texto-foto">Eres la mejor! ✨</div>
@@ -165,16 +177,12 @@
             </div>
         </div>
 
-        <!-- Mensajes fuera del div del árbol para que no se escalen feo -->
-        <div id="msg-izq" class="contenedor-mensajes">
-            <div class="linea-vertical color-celeste"><span>F</span><span>E</span><span>L</span><span>I</span><span>Z</span></div>
-            <div class="linea-vertical color-azul"><span>C</span><span>U</span><span>M</span><span>P</span><span>L</span><span>E</span><span>A</span><span>Ñ</span><span>O</span><span>S</span></div>
+        <!-- MENSAJE INFERIOR -->
+        <div id="msg-abajo" class="contenedor-mensajes-v">
+            <div class="linea-texto color-azul">CAMILITA</div>
+            <div class="linea-texto color-celeste">TQM ❤️</div>
         </div>
 
-        <div id="msg-der" class="contenedor-mensajes">
-            <div class="linea-vertical color-azul"><span>C</span><span>A</span><span>M</span><span>I</span><span>L</span><span>I</span><span>T</span><span>A</span></div>
-            <div class="linea-vertical color-celeste"><span>T</span><span>Q</span><span>M</span><span style="font-size: 2rem;">❤️</span></div>
-        </div>
     </div>
 
     <script>
@@ -192,20 +200,20 @@
         });
 
         function crearCorazon() {
-            const totalFlores = 1200; 
+            const totalFlores = 1000; 
             const fragmento = document.createDocumentFragment();
             for (let i = 0; i < totalFlores; i++) {
                 let t = Math.random() * 2 * Math.PI;
                 let r = Math.sqrt(Math.random()); 
                 const x = 16 * Math.pow(Math.sin(t), 3); 
                 const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-                const posX = 400 + (x * r * 16); 
-                const posY = 300 + (y * r * 16); 
+                const posX = 300 + (x * r * 14); 
+                const posY = 250 + (y * r * 14); 
                 const flor = document.createElement("div");
                 flor.className = "flor-png";
                 flor.style.left = posX + "px";
                 flor.style.top = posY + "px";
-                const size = Math.random() * 15 + 15; 
+                const size = Math.random() * 12 + 12; 
                 flor.style.width = size + "px"; flor.style.height = size + "px";
                 flor.style.transform = `rotate(${Math.random() * 360}deg) scale(0)`;
                 fragmento.appendChild(flor);
@@ -215,9 +223,7 @@
 
         function iniciarAnimaciones() {
             crearCorazon();
-            setTimeout(() => { 
-                arbol.style.opacity = "1"; 
-            }, 500);
+            setTimeout(() => { arbol.style.opacity = "1"; }, 500);
 
             setTimeout(() => {
                 const flores = document.querySelectorAll('.flor-png');
@@ -227,13 +233,13 @@
                         f.style.transform = f.style.transform.replace('scale(0)', 'scale(1)');
                     }, i * 1); 
                 });
-            }, 2500);
+            }, 2000);
 
-            setTimeout(secuenciaIntro, 6000);
+            setTimeout(secuenciaIntro, 5000);
         }
 
         function secuenciaIntro() {
-            const tiempos = [0, 3500, 7000, 10500];
+            const tiempos = [0, 3000, 6000, 9000];
             for(let i=1; i<=4; i++) {
                 setTimeout(() => {
                     limpiarTextos();
@@ -248,22 +254,19 @@
                 limpiarTextos();
                 bloqueado = false;
                 iniciarViento();
-                document.getElementById('msg-izq').classList.add('mostrar-msg');
-                document.getElementById('msg-der').classList.add('mostrar-msg');
-            }, 14500);
+                document.getElementById('msg-arriba').classList.add('mostrar-msg');
+                document.getElementById('msg-abajo').classList.add('mostrar-msg');
+            }, 12500);
         }
 
         function limpiarTextos() {
-            document.querySelectorAll('.foto-marquito').forEach(f => {
-                f.classList.remove('foto-activa');
-            });
+            document.querySelectorAll('.foto-marquito').forEach(f => f.classList.remove('foto-activa'));
         }
 
         function activarZoom(num) {
             if(bloqueado) return;
             limpiarTextos();
-            const actualClass = arbol.className;
-            if(actualClass === `zoom${num}`) {
+            if(arbol.className === `zoom${num}`) {
                 arbol.className = "";
             } else {
                 arbol.className = `zoom${num}`;
@@ -275,9 +278,9 @@
             setInterval(() => {
                 const p = document.createElement("div");
                 p.className = "pétalo-viento";
-                p.style.left = (300 + Math.random() * 300) + "px";
-                p.style.top = (200 + Math.random() * 300) + "px";
-                const size = Math.random() * 12 + 10;
+                p.style.left = (200 + Math.random() * 200) + "px";
+                p.style.top = (150 + Math.random() * 200) + "px";
+                const size = Math.random() * 10 + 8;
                 p.style.width = size + "px"; p.style.height = size + "px";
                 arbol.appendChild(p);
                 setTimeout(() => p.remove(), 6000);
