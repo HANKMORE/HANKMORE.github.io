@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Special Elite', serif;
+        }
+
+        #overlay-inicio {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #fff1f5;
+            z-index: 1000;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            cursor: pointer;
+            transition: opacity 1s ease;
+        }
+
+        .escena {
+            width: 100vw; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        #arbol-master {
+            width: 800px; height: 800px;
+            position: relative;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- RESPONSIVE: Ajuste para celulares --- */
+        @media (max-width: 800px) {
+            #arbol-master {
+                transform: scale(0.45) !important; /* Achica el árbol en móviles */
+            }
+            #msg-izq { left: 20px !important; top: -120px !important; flex-direction: row !important; }
+            #msg-der { right: 20px !important; bottom: -120px !important; top: auto !important; flex-direction: row !important; }
+            .linea-vertical { font-size: 1.5rem !important; flex-direction: row !important; gap: 5px; }
+        }
+
+        .tronco-img {
+            position: absolute; width: 100%; height: 100%;
+            object-fit: contain; bottom: 0; z-index: 5;
+        }
+
+        .flor-png {
+            position: absolute;
+            background-image: url('flor.png'); 
+            background-size: contain; background-repeat: no-repeat;
+            opacity: 0; transform: scale(0);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+
+        .foto-marquito {
+            position: absolute; width: 100px; padding: 5px;
+            background: white; border-radius: 2px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
+            opacity: 0; transform: scale(0.5);
+            transition: all 0.8s ease; z-index: 100;
+        }
+        .foto-marquito img { width: 100%; display: block; }
+
+        .texto-foto {
+            position: absolute; width: 150px; font-size: 0.9rem;
+            color: #1a5fb4; background: rgba(255, 255, 255, 0.8);
+            padding: 8px; border-radius: 5px; opacity: 0;
+            transition: opacity 0.5s ease; pointer-events: none; text-align: center;
+        }
+
+        #f1 { top: 15%; left: 24%; }
+        #f2 { top: 15%; right: 24%; }
+        #f3 { bottom: 40%; left: 22%; }
+        #f4 { bottom: 40%; right: 22%; }
+
+        .txt-derecha { left: 110%; top: 20%; }
+        .txt-izquierda { right: 110%; top: 20%; }
+        .foto-activa .texto-foto { opacity: 1; }
+
+        .contenedor-mensajes {
+            position: absolute; display: flex; gap: 25px; 
+            opacity: 0; transform: translateY(-50px);
+            transition: all 2.5s ease-out; z-index: 200;
+        }
+
+        .linea-vertical {
+            display: flex; flex-direction: column; align-items: center;
+            font-size: 2.2rem; font-weight: bold; line-height: 1.1;
+        }
+
+        .color-azul { color: #1a5fb4; text-shadow: 2px 2px 5px rgba(255,255,255,0.8); }
+        .color-celeste { color: #87CEEB; text-shadow: 2px 2px 5px rgba(0,0,0,0.2); }
+
+        #msg-izq { left: -90px; top: 150px; }
+        #msg-der { right: -120px; top: 180px; }
+
+        .mostrar-msg { opacity: 1 !important; transform: translateY(0) !important; }
+
+        .zoom1 { transform: scale(2.8) translate(22%, 25%) !important; }
+        .zoom2 { transform: scale(2.8) translate(-22%, 25%) !important; }
+        .zoom3 { transform: scale(2.8) translate(25%, 5%) !important; }
+        .zoom4 { transform: scale(2.8) translate(-25%, 5%) !important; }
+
+        .pétalo-viento {
+            position: absolute; background-image: url('flor.png');
+            background-size: contain; z-index: 4;
+            animation: viento-izq linear forwards;
+        }
+
+        @keyframes viento-izq {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translate(-1400px, 400px) rotate(-1080deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay-inicio">
+        <div style="font-size: 80px; margin-bottom: 20px;">👀</div>
+        <div style="font-size: 2rem; color: #1a5fb4; font-weight: bold;">VER</div>
+    </div>
+
+    <!-- NOTA: Cambié a .ogg por tu archivo de WhatsApp -->
+    <audio id="musica-fondo" loop>
+        <source src="musica.ogg" type="audio/ogg">
+    </audio>
+
+    <div class="escena">
+        <div id="arbol-master">
+            <img src="arbol.png" class="tronco-img">
+            <div id="contenedor-flores" style="position: absolute; width:100%; height:100%;"></div>
+
+            <div id="msg-izq" class="contenedor-mensajes">
+                <div class="linea-vertical color-celeste"><span>F</span><span>E</span><span>L</span><span>I</span><span>Z</span></div>
+                <div class="linea-vertical color-azul"><span>C</span><span>U</span><span>M</span><span>P</span><span>L</span><span>E</span></div>
+            </div>
+
+            <div id="msg-der" class="contenedor-mensajes">
+                <div class="linea-vertical color-azul"><span>C</span><span>A</span><span>M</span><span>I</span><span>L</span><span>I</span><span>T</span><span>A</span></div>
+                <div class="linea-vertical color-celeste"><span>T</span><span>Q</span><span>M</span><span style="font-size: 3rem;">❤️</span></div>
+            </div>
+
+            <div class="foto-marquito" id="f1" onclick="activarZoom(1)">
+                <img src="pic1.jpg">
+                <div class="texto-foto txt-derecha">Eres la mejor! ✨</div>
+            </div>
+            <div class="foto-marquito" id="f2" onclick="activarZoom(2)">
+                <img src="pic2.jpg">
+                <div class="texto-foto txt-izquierda">Te quiero mucho 💙</div>
+            </div>
+            <div class="foto-marquito" id="f3" onclick="activarZoom(3)">
+                <img src="pic3.jpg">
+                <div class="texto-foto txt-derecha">Siempre juntos ❀</div>
+            </div>
+            <div class="foto-marquito" id="f4" onclick="activarZoom(4)">
+                <img src="pic4.jpg">
+                <div class="texto-foto txt-izquierda">Por más años así 🎂</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const arbol = document.getElementById('arbol-master');
+        const contenedor = document.getElementById('contenedor-flores');
+        const musica = document.getElementById('musica-fondo');
+        const overlay = document.getElementById('overlay-inicio');
+        
+        let zoomActual = 0;
+        let bloqueado = true;
+
+        overlay.addEventListener('click', () => {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 1000);
+            musica.play().catch(e => console.log("Audio bloqueado"));
+            musica.volume = 0.5;
+            iniciarAnimaciones();
+        });
+
+        function crearCorazon() {
+            const totalFlores = 1400; 
+            const fragmento = document.createDocumentFragment();
+            for (let i = 0; i < totalFlores; i++) {
+                let t = Math.random() * 2 * Math.PI;
+                let r = Math.sqrt(Math.random()); 
+                const x = 20 * Math.pow(Math.sin(t), 3); 
+                const y = -(14 * Math.cos(t) - 4 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+                const posX = 400 + (x * r * 17.5); 
+                const posY = 270 + (y * r * 17.5); 
+                const flor = document.createElement("div");
+                flor.className = "flor-png";
+                flor.style.left = posX + "px";
+                flor.style.top = posY + "px";
+                const size = Math.random() * 18 + 20; 
+                flor.style.width = size + "px"; flor.style.height = size + "px";
+                flor.style.transform = `rotate(${Math.random() * 360}deg) scale(0)`;
+                fragmento.appendChild(flor);
+            }
+            contenedor.appendChild(fragmento);
+        }
+
+        function iniciarAnimaciones() {
+            crearCorazon();
+            setTimeout(() => { 
+                arbol.style.opacity = "1"; 
+                arbol.style.transform = window.innerWidth < 800 ? "scale(0.45)" : "scale(1)"; 
+            }, 500);
+
+            setTimeout(() => {
+                const flores = document.querySelectorAll('.flor-png');
+                flores.forEach((f, i) => {
+                    setTimeout(() => {
+                        f.style.opacity = "1";
+                        f.style.transform = f.style.transform.replace('scale(0)', 'scale(1)');
+                    }, i * 1.2); 
+                });
+            }, 3000);
+
+            setTimeout(secuenciaIntro, 7000);
+        }
+
+        function secuenciaIntro() {
+            const tiempos = [0, 4000, 8000, 12000];
+            for(let i=1; i<=4; i++) {
+                setTimeout(() => {
+                    limpiarTextos();
+                    arbol.className = `zoom${i}`;
+                    const el = document.getElementById(`f${i}`);
+                    el.style.opacity = "1"; el.style.transform = "scale(1)";
+                    el.classList.add('foto-activa');
+                }, tiempos[i-1]);
+            }
+            setTimeout(() => {
+                arbol.className = "";
+                limpiarTextos();
+                bloqueado = false;
+                iniciarViento();
+                document.getElementById('msg-izq').classList.add('mostrar-msg');
+                document.getElementById('msg-der').classList.add('mostrar-msg');
+            }, 16000);
+        }
+
+        function limpiarTextos() {
+            document.querySelectorAll('.foto-marquito').forEach(f => f.classList.remove('foto-activa'));
+        }
+
+        function activarZoom(num) {
+            if(bloqueado) return;
+            limpiarTextos();
+            if(zoomActual === num) {
+                arbol.className = "";
+                zoomActual = 0;
+            } else {
+                arbol.className = `zoom${num}`;
+                document.getElementById(`f${num}`).classList.add('foto-activa');
+                zoomActual = num;
+            }
+        }
+
+        function iniciarViento() {
+            setInterval(() => {
+                const p = document.createElement("div");
+                p.className = "pétalo-viento";
+                p.style.left = (250 + Math.random() * 450) + "px";
+                p.style.top = (150 + Math.random() * 350) + "px";
+                const size = Math.random() * 14 + 12; 
+                p.style.width = size + "px"; p.style.height = size + "px";
+                p.style.animationDuration = (Math.random() * 3 + 4) + "s";
+                arbol.appendChild(p);
+                setTimeout(() => p.remove(), 7000);
+            }, 100); 
+        }
+    </script>
+</body>
+</html>
